@@ -48,7 +48,7 @@ jobs:
       - checkout
       - run:
           name: Build Docker Image
-          command: docker build -t folksdev/account-api:latest ../.
+          command: docker build -t folksdev/account-api:latest .
       - run:
           name: Publish Docker Image
           command: docker push folksdev/account-api:latest
