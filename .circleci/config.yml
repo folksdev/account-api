@@ -41,6 +41,9 @@ jobs:
             sh get-docker.sh
       - setup_remote_docker
       - run:
+          name: Check environment
+          command: echo $DOCKER_USER
+      - run:
           name: Docker login
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - restore_cache:
