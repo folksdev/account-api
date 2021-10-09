@@ -42,7 +42,7 @@ jobs:
       - setup_remote_docker
       - run:
           name: Docker login
-          command: docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+          command: docker login -u $DOCKER_USER -p $DOCKER_PASS
       - restore_cache:
           key: mvn-cache
       - checkout
