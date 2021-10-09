@@ -10,10 +10,10 @@ jobs:
       - checkout
       - run:
           name: Clean
-          command: mvn clean
+          command: ./mvnw clean
       - run:
           name: Compile
-          command: mvn compile
+          command: ./mvnw compile
       - save_cache:
           key: mvn-cache
           paths:
