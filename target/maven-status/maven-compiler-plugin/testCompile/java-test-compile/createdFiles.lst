@@ -1,7 +1,0 @@
-com\folksdev\account\IntegrationTestSupport.class
-com\folksdev\account\service\CustomerServiceTest.class
-com\folksdev\account\AccountApplicationTests.class
-com\folksdev\account\controller\AccountControllerTest.class
-com\folksdev\account\TestSupport.class
-com\folksdev\account\service\AccountServiceTest.class
-com\folksdev\account\controller\CustomerControllerTest.class
