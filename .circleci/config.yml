@@ -34,6 +34,11 @@ jobs:
     docker:
       - image: maven:3.8.3-jdk-11
     steps:
+      - run:
+          name: Install docker # Download and install docker client
+          command: |
+            curl -fsSL https://get.docker.com -o get-docker.sh
+            sh get-docker.sh
       - setup_remote_docker
       - run:
           name: Docker login
