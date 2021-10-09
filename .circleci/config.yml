@@ -3,17 +3,17 @@ version: 2
 jobs:
   compile:
     docker:
-      - image: openjdk:11
+      - image: maven:3.8.3-jdk-11
     steps:
       - restore_cache:
           key: mvn-cache
       - checkout
       - run:
           name: Clean
-          command: ./mvnw clean
+          command: mvn clean
       - run:
           name: Compile
-          command: ./mvnw compile
+          command: mvn compile
       - save_cache:
           key: mvn-cache
           paths:
@@ -22,7 +22,7 @@ jobs:
             - "~/.m2"
   test:
     docker:
-      - image: openjdk:11
+      - image: maven:3.8.3-jdk-11
     steps:
       - restore_cache:
           key: mvn-cache
@@ -32,7 +32,7 @@ jobs:
           command: mvn install
   publish:
     docker:
-      - image: openjdk:11
+      - image: maven:3.8.3-jdk-11
     steps:
       - setup_remote_docker
       - run:
