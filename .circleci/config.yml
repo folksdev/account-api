@@ -18,7 +18,7 @@ jobs:
           name: Maven clean verify
           command: mvn clean verify
       - save_cache:
-          key: v1-dependencies-{{ checksum "pom.xml" }}
+          key: dependencies-{{ checksum "pom.xml" }}
           paths:
             - ~/.m2
 
