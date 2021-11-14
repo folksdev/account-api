@@ -13,7 +13,7 @@ jobs:
             - v1-dependencies-
       - run:
           name: Test
-          command: mvn clean verify -Dmaven.test.skip=true
+          command: mvn clean verify
       - save_cache:
           key: v1-dependencies-{{ checksum "pom.xml" }}
           paths:
