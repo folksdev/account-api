@@ -7,12 +7,15 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: mvn-cache
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
       - run:
           name: Test
           command: mvn clean install
       - save_cache:
-          key: mvn-cache
+          key: v1-dependencies-{{ checksum "pom.xml" }}
           paths:
             - ~/.m2
 
@@ -22,7 +25,10 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: mvn-cache
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
       - run:
           name: Test
           command: mvn install
