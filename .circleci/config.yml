@@ -14,9 +14,7 @@ jobs:
       - save_cache:
           key: mvn-cache
           paths:
-            - "~/.ivy2/cache"
-            - "~/.mvn"
-            - "~/.m2"
+            - ~/.m2
   test:
     docker:
       - image: maven:3.8.3-jdk-11
@@ -63,3 +61,6 @@ workflows:
             - DOCKER_HUB
           requires:
             - test
+          filters:
+            branches:
+              only: master
