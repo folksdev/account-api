@@ -13,7 +13,7 @@ jobs:
             - v1-dependencies-
       - run:
           name: Test
-          command: mvn clean install -Dmaven.test.skip=true
+          command: mvn clean verify -Dmaven.test.skip=true
       - save_cache:
           key: v1-dependencies-{{ checksum "pom.xml" }}
           paths:
@@ -29,8 +29,8 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             - v1-dependencies-
       - run:
-          name: Deploy
-          command: mvn deploy
+          name: Install
+          command: mvn install -Dmaven.test.skip=true
   publish:
     docker:
       - image: maven:3.8.3-jdk-11
