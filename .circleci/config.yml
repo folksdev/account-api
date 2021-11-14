@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  compile:
+  test:
     docker:
       - image: maven:3.8.3-jdk-11
     steps:
@@ -9,15 +9,12 @@ jobs:
       - restore_cache:
           key: mvn-cache
       - run:
-          name: Resolve dependencies
-          command: mvn dependency:resolve
+          name: Test
+          command: mvn clean install
       - save_cache:
           key: mvn-cache
           paths:
             - ~/.m2
-      - run:
-          name: Clean Compile
-          command: mvn clean compile
 
   test:
     docker:
