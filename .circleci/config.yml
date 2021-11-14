@@ -14,7 +14,7 @@ jobs:
       - save_cache:
           key: mvn-cache
           paths:
-            - ~/.m2
+            - /root/.m2
   test:
     docker:
       - image: maven:3.8.3-jdk-11
