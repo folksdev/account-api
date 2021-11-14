@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  test:
+  verify:
     docker:
       - image: maven:3.8.3-jdk-11
     steps:
@@ -19,7 +19,7 @@ jobs:
           paths:
             - ~/.m2
 
-  deploy:
+  install:
     docker:
       - image: maven:3.8.3-jdk-11
     steps:
