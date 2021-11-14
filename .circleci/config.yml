@@ -58,15 +58,15 @@ workflows:
   version: 2
   build-and-test-and-deploy:
     jobs:
-      - install
-      - test:
+      - test
+      - deploy:
           requires:
-            - install
+            - test
       - publish:
           context:
             - DOCKER_HUB
           requires:
-            - test
+            - deploy
           filters:
             branches:
               only: master
