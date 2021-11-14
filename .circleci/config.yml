@@ -19,9 +19,9 @@ jobs:
     docker:
       - image: maven:3.8.3-jdk-11
     steps:
+      - checkout
       - restore_cache:
           key: mvn-cache
-      - checkout
       - run:
           name: Test
           command: mvn install
