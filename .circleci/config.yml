@@ -37,7 +37,7 @@ jobs:
             - dependencies-
       - run:
           name: Maven install
-          command: mvn install
+          command: mvn install -Dmaven.test.skip=true
 
 workflows:
   version: 2
