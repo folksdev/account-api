@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  installs:
+  install:
     docker:
       - image: maven:3.8.3-jdk-11
     steps:
