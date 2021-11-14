@@ -29,8 +29,8 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             - v1-dependencies-
       - run:
-          name: Test
-          command: mvn install
+          name: Deploy
+          command: mvn deploy
   publish:
     docker:
       - image: maven:3.8.3-jdk-11
@@ -45,8 +45,6 @@ jobs:
       - run:
           name: Docker login
           command: docker login -u $DOCKER_USER -p $DOCKER_PASS
-      - restore_cache:
-          key: mvn-cache
       - run:
           name: Build Docker Image
           command: docker build -t folksdev/account-api:latest .
