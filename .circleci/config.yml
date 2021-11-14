@@ -9,12 +9,16 @@ jobs:
           key: mvn-cache
       - checkout
       - run:
-          name: Clean Compile
-          command: mvn clean compile
+          name: Resolve dependencies
+          command: mvn dependency:resolve
       - save_cache:
           key: mvn-cache
           paths:
-            - /root/.m2
+            - ~/.m2
+      - run:
+          name: Clean Compile
+          command: mvn clean compile
+      
   test:
     docker:
       - image: maven:3.8.3-jdk-11
