@@ -1,14 +1,14 @@
 version: 2
 
 jobs:
-  install:
+  test:
     docker:
       - image: maven:3.8.3-jdk-11
     steps:
       - checkout
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "pom.xml" }}
+            - v1-dependencies-{{ checksum "pom.xml" }} # Dependencies will be loaded from cache unless pom changes
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run:
@@ -19,7 +19,7 @@ jobs:
           paths:
             - ~/.m2
 
-  test:
+  deploy:
     docker:
       - image: maven:3.8.3-jdk-11
     steps:
@@ -27,7 +27,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "pom.xml" }}
-            # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
       - run:
           name: Test
