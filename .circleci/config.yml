@@ -9,11 +9,8 @@ jobs:
           key: mvn-cache
       - checkout
       - run:
-          name: Clean
-          command: mvn clean
-      - run:
-          name: Compile
-          command: mvn compile
+          name: Clean Compile
+          command: mvn clean compile
       - save_cache:
           key: mvn-cache
           paths:
