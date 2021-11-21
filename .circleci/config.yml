@@ -53,6 +53,11 @@ jobs:
       - run:
           name: Docker build
           command: docker build -t folksdev/account-api:1.0.0 .
+
+      - run:
+          name: Docker build
+          command: docker push folksdev/account-api:1.0.0
+
       - save_cache:
           key: docker-image-cache-{{ checksum "Dockerfile" }}
           paths:
@@ -66,7 +71,7 @@ jobs:
       - checkout
 
       - setup_remote_docker:
-          version: 19.03.13
+          version: 20.10.7
           docker_layer_caching: true
 
       - restore_cache:
@@ -90,7 +95,7 @@ workflows:
       - docker-build:
           requires:
             - build-and-test
-      - docker-publish:
-          requires:
-            - docker-build
+#      - docker-publish:
+#          requires:
+#            - docker-build
 
