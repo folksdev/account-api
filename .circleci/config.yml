@@ -52,7 +52,7 @@ jobs:
 
       - run:
           name: Docker build
-          command: docker build -t account-api:1.0.0 .
+          command: docker build -t folksdev/account-api:1.0.0 .
       - save_cache:
           key: docker-image-cache-{{ checksum "Dockerfile" }}
           paths:
