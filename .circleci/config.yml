@@ -62,30 +62,6 @@ jobs:
           name: Docker build
           command: docker push folksdev/account-api:1.0.0
 
-      - save_cache:
-          key: docker-image-cache-{{ checksum "Dockerfile" }}
-          paths:
-            - /var/lib/docker/
-
-  docker-publish:
-    docker:
-      - image: circleci/openjdk:11
-
-    steps:
-      - checkout
-
-      - setup_remote_docker:
-          version: 20.10.7
-          docker_layer_caching: true
-
-      - restore_cache:
-          keys:
-            - docker-image-cache-{{ checksum "Dockerfile" }}
-            - docker-image-cache-
-
-      - run:
-          name: Docker build
-          command: docker push folksdev/account-api:1.0.0
 
 
 workflows:
