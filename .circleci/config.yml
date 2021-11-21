@@ -65,18 +65,18 @@ jobs:
     steps:
       - checkout
 
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
+
       - restore_cache:
           keys:
             - docker-image-cache-{{ checksum "Dockerfile" }}
             - docker-image-cache-
 
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
-
       - run:
           name: Docker build
-          command: docker push folksdev/account-api:1.0.0 .
+          command: docker push folksdev/account-api:1.0.0
 
 
 workflows:
