@@ -44,6 +44,6 @@ workflows:
   ci-cd-workflow:
     jobs:
       - build-and-test
-      - install:
+      - package:
           requires:
           - build-and-test
