@@ -55,6 +55,10 @@ jobs:
           command: docker build -t folksdev/account-api:1.0.0 .
 
       - run:
+          name: Docker Login
+          command: docker login -u folksdev -p ${DOCKERHUB_PASSWORD}
+
+      - run:
           name: Docker build
           command: docker push folksdev/account-api:1.0.0
 
