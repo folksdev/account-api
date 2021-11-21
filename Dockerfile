@@ -6,7 +6,7 @@ RUN chmod +x mvnw
 RUN ./mvnw dependency:resolve
 
 COPY src src
-RUN ./mvnw package
+RUN ./mvnw package -Dmaven.test.skip=true
 
 FROM openjdk:11
 WORKDIR account-api
