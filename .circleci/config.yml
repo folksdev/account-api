@@ -1,7 +1,7 @@
 version: 2
 
 jobs:
-  verify:
+  build-and-test:
     docker:
       - image: circleci/openjdk:11
 
@@ -22,7 +22,7 @@ jobs:
           paths:
             - ~/.m2
 
-  install:
+  package:
     docker:
       - image: circleci/openjdk:11
 
@@ -37,13 +37,13 @@ jobs:
             - dependencies-
       - run:
           name: Maven install
-          command: mvn install -Dmaven.test.skip=true
+          command: mvn package -Dmaven.test.skip=true
 
 workflows:
   version: 2
   ci-cd-workflow:
     jobs:
-      - verify
+      - build-and-test
       - install:
           requires:
-          - verify
+          - build-and-test

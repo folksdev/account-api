@@ -10,6 +10,10 @@ jobs:
 
     steps:
       - checkout
+      - restore-cache:
+          keys:
+            - v1-mvn-dependencies-{{ checksum "pom.xml" }}
+            - v1-mvn-dependencies-
       - run:
           name: Maven clean verify
           command: mvn clean verify
@@ -23,9 +27,18 @@ jobs:
 
     steps:
       - checkout
+      - restore-cache:
+          keys:
+            - v1-mvn-dependencies-{{ checksum "pom.xml" }}
+            - v1-mvn-dependencies-
       - run:
-          name: Maven install
-          command: mvn install
+          name: Maven package
+          command: mvn -Dmaven.test.skip=true package
+      - save-cache:
+          paths:
+            - ~/.m2
+          key:
+            - v1-mvn-dependencies-{{ checksum "pom.xml" }}
 
 workflows:
   version: 2
