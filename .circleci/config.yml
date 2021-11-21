@@ -39,7 +39,7 @@ jobs:
           name: Maven install
           command: mvn package -Dmaven.test.skip=true
 
-  docker-build:
+  docker-build-push:
     docker:
       - image: circleci/openjdk:11
 
@@ -96,10 +96,7 @@ workflows:
       - package:
           requires:
           - build-and-test
-      - docker-build:
+      - docker-build-push:
           requires:
             - build-and-test
-#      - docker-publish:
-#          requires:
-#            - docker-build
 
