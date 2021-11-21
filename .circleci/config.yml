@@ -39,6 +39,22 @@ jobs:
           name: Maven install
           command: mvn package -Dmaven.test.skip=true
 
+  docker-build:
+    docker:
+      - image: circleci/openjdk:11
+
+    steps:
+      - checkout
+
+      - setup_remote_docker:
+          version: 19.03.13
+          docker_layer_caching: true
+
+      - run:
+          name: Docker build
+          command: docker build -t account-api:1.0.0 .
+
+
 workflows:
   version: 2
   ci-cd-workflow:
@@ -47,3 +63,6 @@ workflows:
       - package:
           requires:
           - build-and-test
+      - docker-build:
+          requires:
+            - build-and-test
