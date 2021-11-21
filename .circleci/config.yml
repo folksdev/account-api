@@ -62,8 +62,6 @@ jobs:
           name: Docker build
           command: docker push folksdev/account-api:1.0.0
 
-
-
 workflows:
   version: 2
   ci-cd-workflow:
