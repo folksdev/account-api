@@ -9,12 +9,13 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - dependencies
+            - dependencies-{{ checksum "logback.xml" }}
+            - dependencies-
       - run:
           name: Build and run tests
           command: mvn clean verify
       - save_cache:
-          key: dependencies
+          key: dependencies-{{ checksum "logback.xml" }}
           paths:
             - ~/.m2
 
@@ -26,7 +27,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - dependencies
+            - dependencies-{{ checksum "logback.xml" }}
+            - dependencies-
       - run:
           name: Publish to local maven repo
           command: mvn clean verify
