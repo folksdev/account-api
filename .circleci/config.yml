@@ -22,7 +22,7 @@ jobs:
           command: mvn clean verify
 
 workflows:
-  verion: 2
+  version: 2
   cicd-workflow:
     jobs:
       - build-and-test
