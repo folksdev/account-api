@@ -23,6 +23,7 @@ jobs:
       - image: circleci/openjdk:11
     steps:
       - checkout
+      - setup_remote_docker
       - restore_cache:
           keys:
             - dependencies-{{ checksum "pom.xml" }}
