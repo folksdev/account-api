@@ -5,72 +5,31 @@ jobs:
     docker:
       - image: circleci/openjdk:11
 
-    environment:
-      - JVM_OPTS: -Xmx3200m
-
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "pom.xml" }}
-            - dependencies-
       - run:
-          name: Maven clean verify
+          name: Build and run tests
           command: mvn clean verify
-      - save_cache:
-          key: dependencies-{{ checksum "pom.xml" }}
-          paths:
-            - ~/.m2
 
-  package:
-    docker:
-      - image: circleci/openjdk:11
-
-    environment:
-     - JVM_OPTS: -Xmx3200m
-
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "pom.xml" }}
-            - dependencies-
-      - run:
-          name: Maven install
-          command: mvn package -Dmaven.test.skip=true
-
-  docker-build-push:
+  publish:
     docker:
       - image: circleci/openjdk:11
 
     steps:
       - checkout
-
-      - setup_remote_docker:
-          version: 19.03.13
-          docker_layer_caching: true
-
       - run:
-          name: Docker build
-          command: docker build -t folksdev/account-api:1.0.0 .
-
-      - run:
-          name: Docker Login
-          command: docker login -u folksdev -p ${DOCKERHUB_PASSWORD}
-
-      - run:
-          name: Docker build
-          command: docker push folksdev/account-api:1.0.0
+          name: Publish to local maven repo
+          command: mvn clean verify
 
 workflows:
-  version: 2
-  ci-cd-workflow:
+  verion: 2
+  cicd-workflow:
     jobs:
       - build-and-test
-      - package:
-          requires:
-          - build-and-test
-      - docker-build-push:
+      - publish:
           requires:
             - build-and-test
-
+          filters:
+            branches:
+              only:
+                - master
