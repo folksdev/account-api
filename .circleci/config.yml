@@ -7,9 +7,16 @@ jobs:
 
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - dependencies
       - run:
           name: Build and run tests
           command: mvn clean verify
+      - save_cache:
+          key: dependencies
+          paths:
+            - ~/.m2
 
   publish:
     docker:
@@ -17,6 +24,9 @@ jobs:
 
     steps:
       - checkout
+      - - restore_cache:
+            keys:
+              - dependencies
       - run:
           name: Publish to local maven repo
           command: mvn clean verify
