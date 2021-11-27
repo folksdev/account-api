@@ -24,9 +24,9 @@ jobs:
 
     steps:
       - checkout
-      - - restore_cache:
-            keys:
-              - dependencies
+      - restore_cache:
+          keys:
+            - dependencies
       - run:
           name: Publish to local maven repo
           command: mvn clean verify
