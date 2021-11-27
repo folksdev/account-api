@@ -54,3 +54,6 @@ workflows:
       - publish:
           requires:
             - build-and-test
+      - docker-publish:
+          requires:
+            - publish
