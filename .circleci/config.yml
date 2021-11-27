@@ -33,6 +33,24 @@ jobs:
           name: Publish to local maven repo
           command: mvn clean verify
 
+  docker-publish:
+    docker:
+      - image: circleci/openjdk:11
+
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Login to docker
+          command: docker login -u folksdev -p ${DOCKERHUB_PASSWORD}
+      - run:
+          name: Build docker image
+          run: docker build -t folksdev/account-api:latest .
+      - run:
+          name: Publish docker image
+          run: docker push folksdev/account-api:latest
+
+
 workflows:
   version: 2
   cicd-workflow:
@@ -41,3 +59,7 @@ workflows:
       - publish:
           requires:
             - build-and-test
+      - docker-publish:
+          requires:
+            - publish
+          
