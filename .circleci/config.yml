@@ -15,7 +15,7 @@ jobs:
           name: Build and run tests
           command: mvn clean verify
       - save_cache:
-          key: dependencies-{{ checksum "logback.xml" }}
+          key: dependencies-{{ checksum "pom.xml" }}
           paths:
             - ~/.m2
 
@@ -27,7 +27,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - dependencies-{{ checksum "logback.xml" }}
+            - dependencies-{{ checksum "pom.xml" }}
             - dependencies-
       - run:
           name: Publish to local maven repo
