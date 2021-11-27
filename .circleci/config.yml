@@ -9,7 +9,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - dependencies-{{ checksum "logback.xml" }}
+            - dependencies-{{ checksum "pom.xml" }}
             - dependencies-
       - run:
           name: Build and run tests
