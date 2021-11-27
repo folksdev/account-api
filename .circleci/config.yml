@@ -45,10 +45,10 @@ jobs:
           command: docker login -u folksdev -p ${DOCKERHUB_PASSWORD}
       - run:
           name: Build docker image
-          run: docker build -t folksdev/account-api:latest .
+          command: docker build -t folksdev/account-api:latest .
       - run:
           name: Publish docker image
-          run: docker push folksdev/account-api:latest
+          command: docker push folksdev/account-api:latest
 
 
 workflows:
@@ -62,4 +62,4 @@ workflows:
       - docker-publish:
           requires:
             - publish
-          
+
