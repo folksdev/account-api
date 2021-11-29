@@ -34,7 +34,8 @@ jobs:
       - image: circleci/openjdk:11
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: Docker build
           command: docker build -t folksdev/account-api:latest .
