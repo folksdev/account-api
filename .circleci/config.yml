@@ -40,7 +40,7 @@ jobs:
           command: docker build -t folksdev/account-api:latest .
       - run:
           name: Docker login
-          command: docker login -u folksdev -p ${DOCKERHUB_PASSWORD}
+          command: docker login -u folksdev -p $DOCKERHUB_PASSWORD
       - run:
           name: Docker publish
           command: docker push folksdev/account-api:latest
