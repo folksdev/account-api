@@ -11,7 +11,7 @@ jobs:
           command: mvn clean verify
 
   publish:
-    cker:
+    docker:
       - image: circleci/openjdk:11
       steps:
         - checkout
