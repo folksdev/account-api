@@ -23,8 +23,6 @@ jobs:
       - image: circleci/openjdk:11
     steps:
       - checkout
-      - setup_remote_docker:
-          version: 19.03.13
       - restore_cache:
           keys:
             - dependencies-{{ checksum "pom.xml" }}
@@ -38,6 +36,7 @@ jobs:
       - image: circleci/openjdk:11
     steps:
       - checkout
+      - setup_remote_docker
       - run:
           name: Docker login
           command: docker login -u folksdev -p ${DOCKERHUB_PASSWORD}
