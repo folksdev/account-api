@@ -14,7 +14,7 @@ jobs:
     docker:
       - image: circleci/openjdk:11
     steps:
-      - checkouts
+      - checkout
       - run:
           name: Publish to local repository
           command: mvn install -Dmaven.test.skip=true
