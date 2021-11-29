@@ -6,15 +6,27 @@ jobs:
       - image: circleci/openjdk:11
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - mvn-dependencies-{{ checksum "pom.xml" }}
+            - mvn-dependenceies-
       - run:
           name: Build and test
           command: mvn clean verify
+      - save_cache:
+          key: mvn-dependencies
+          paths:
+            - ~/.m2
 
   publish:
     docker:
       - image: circleci/openjdk:11
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - mvn-dependencies-{{ checksum "pom.xml" }}
+            - mvn-dependenceies-
       - run:
           name: Publish to local repo
           command: mvn install -D maven.test.skip=true
