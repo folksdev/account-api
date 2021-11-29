@@ -6,55 +6,24 @@ jobs:
       - image: circleci/openjdk:11
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "pom.xml" }}
-            - dependencies-
       - run:
           name: Build and test
           command: mvn clean verify
-      - save_cache:
-          key: dependencies-{{ checksum "pom.xml" }}
-          paths:
-            - ~/.m2
 
   publish:
-    docker:
+    cker:
       - image: circleci/openjdk:11
-    steps:
-      - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "pom.xml" }}
-            - dependencies-
-      - run:
-          name: Publish to local repo
-          command: mvn install -D maven.test.skip=true
-
-  docker-publish:
-    docker:
-      - image: circleci/openjdk:11
-    steps:
-      - checkout
-      - setup_remote_docker
-      - run:
-          name: Docker login
-          command: docker login -u folksdev -p ${DOCKERHUB_PASSWORD}
-      - run:
-          name: Docker build
-          command: docker build -t folksdev/account-api:latest .
-      - run:
-          name: Docker push
-          command: docker push folksdev/account-api:latest
+      steps:
+        - checkout
+        - run:
+            name: Publish to local repository
+            command: mvn install -Dmaven.test.skip=true
 
 workflows:
   version: 2
-  cicd-workflow:
+  cicd-pipeline:
     jobs:
       - build-and-test
       - publish:
           requires:
             - build-and-test
-      - docker-publish:
-          requires:
-            - publish
