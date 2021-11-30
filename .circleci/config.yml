@@ -49,6 +49,15 @@ jobs:
       - run:
           name: Docker push
           command: docker push folksdev/account-api:latest
+
+  another-job:
+    docker:
+      - image: circleci/openjdk:11
+
+    steps:
+      - run:
+          name: Placeholder command
+          command: echo "FOLKSDEV ROCKS"
 workflows:
   version: 2
   cicd-pipeline:
@@ -60,3 +69,7 @@ workflows:
       - publish-docker:
           requires:
             - build-and-test
+      - another-job:
+          requires:
+            - publish
+            - publish-docker
