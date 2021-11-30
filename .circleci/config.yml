@@ -1,49 +1,79 @@
 version: 2
 
 jobs:
-  verify:
+  build-and-test:
     docker:
       - image: circleci/openjdk:11
-
-    environment:
-      - JVM_OPTS: -Xmx3200m
 
     steps:
       - checkout
       - restore_cache:
           keys:
-            - dependencies-{{ checksum "pom.xml" }}
-            - dependencies-
+            - mvn-dependencies-{{ checksum "pom.xml" }}
+            - mvn-dependencies-
       - run:
-          name: Maven clean verify
+          name: Build and test
           command: mvn clean verify
       - save_cache:
-          key: dependencies-{{ checksum "pom.xml" }}
+          key: mvn-dependencies-{{ checksum "pom.xml" }}
           paths:
             - ~/.m2
 
-  install:
+  publish:
     docker:
       - image: circleci/openjdk:11
-
-    environment:
-     - JVM_OPTS: -Xmx3200m
 
     steps:
       - checkout
       - restore_cache:
           keys:
-            - dependencies-{{ checksum "pom.xml" }}
-            - dependencies-
+            - mvn-dependencies-{{ checksum "pom.xml" }}
+            - mvn-dependencies-
       - run:
-          name: Maven install
-          command: mvn install
+          name: Publish to local maven repository
+          command: mvn install -Dmaven.test.skip=true
 
+  publish-docker:
+    docker:
+      - image: circleci/openjdk:11
+
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Docker build
+          command: docker build -t folksdev/account-api:latest .
+      - run:
+          name: Docker login
+          command: docker login -u folksdev -p $DOCKERHUB_PASSWORD
+      - run:
+          name: Docker push
+          command: docker push folksdev/account-api:latest
+
+  another-job:
+    docker:
+      - image: circleci/openjdk:11
+
+    steps:
+      - run:
+          name: Placeholder command
+          command: echo "FOLKSDEV ROCKS"
 workflows:
   version: 2
-  ci-cd-workflow:
+  cicd-pipeline:
     jobs:
-      - verify
-      - install:
+      - build-and-test
+      - publish:
           requires:
-          - verify
+            - build-and-test
+      - publish-docker:
+          requires:
+            - build-and-test
+          filters:
+            branches:
+              only:
+                - master
+      - another-job:
+          requires:
+            - publish
+            - publish-docker
