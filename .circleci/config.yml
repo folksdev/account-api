@@ -7,9 +7,17 @@ jobs:
 
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - mvn-dependencies-{{ checksum "pom.xml" }}
+            - mvn-dependencies-
       - run:
           name: Build and test
           command: mvn clean verify
+      - save_cache:
+          key: mvn-dependencies-{{ checksum "pom.xml" }}
+          paths:
+            - ~/.m2
 
   publish:
     docker:
@@ -17,6 +25,10 @@ jobs:
 
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - mvn-dependencies-{{ checksum "pom.xml" }}
+            - mvn-dependencies-
       - run:
           name: Publish to local maven repository
           command: mvn install -Dmaven.test.skip=true
