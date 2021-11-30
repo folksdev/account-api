@@ -69,6 +69,10 @@ workflows:
       - publish-docker:
           requires:
             - build-and-test
+          filters:
+            branches:
+              only:
+                - master
       - another-job:
           requires:
             - publish
