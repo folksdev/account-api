@@ -1,49 +1,29 @@
 version: 2
 
 jobs:
-  verify:
+  build-and-test:
     docker:
       - image: circleci/openjdk:11
-
-    environment:
-      - JVM_OPTS: -Xmx3200m
-
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "pom.xml" }}
-            - dependencies-
       - run:
-          name: Maven clean verify
+          name: Build and test
           command: mvn clean verify
-      - save_cache:
-          key: dependencies-{{ checksum "pom.xml" }}
-          paths:
-            - ~/.m2
 
-  install:
+  publish:
     docker:
       - image: circleci/openjdk:11
-
-    environment:
-     - JVM_OPTS: -Xmx3200m
-
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - dependencies-{{ checksum "pom.xml" }}
-            - dependencies-
       - run:
-          name: Maven install
-          command: mvn install
+          name: Publish to local maven repository
+          command: mvn install -Dmaven.test.skip=true
 
 workflows:
   version: 2
-  ci-cd-workflow:
+  cicd-pipeline:
     jobs:
-      - verify
-      - install:
+      - build-and-test
+      - publish:
           requires:
-          - verify
+            - build-and-test
