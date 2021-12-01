@@ -10,7 +10,6 @@ jobs:
       - restore_cache:
           keys:
             - mvn-dependencies-{{ checksum "pom.xml" }}
-            - mvn-dependencies-
       - run:
           name: Build and test
           command: mvn clean verify
@@ -28,7 +27,6 @@ jobs:
       - restore_cache:
           keys:
             - mvn-dependencies-{{ checksum "pom.xml" }}
-            - mvn-dependencies-
       - run:
           name: Publish to local maven repository
           command: mvn install -Dmaven.test.skip=true
@@ -43,21 +41,15 @@ jobs:
       - run:
           name: Docker build
           command: docker build -t folksdev/account-api:latest .
+
       - run:
           name: Docker login
           command: docker login -u folksdev -p $DOCKERHUB_PASSWORD
+
       - run:
           name: Docker push
           command: docker push folksdev/account-api:latest
 
-  another-job:
-    docker:
-      - image: circleci/openjdk:11
-
-    steps:
-      - run:
-          name: Placeholder command
-          command: echo "FOLKSDEV ROCKS"
 workflows:
   version: 2
   cicd-pipeline:
@@ -73,7 +65,3 @@ workflows:
             branches:
               only:
                 - master
-      - another-job:
-          requires:
-            - publish
-            - publish-docker
