@@ -1,0 +1,31 @@
+version: 2
+
+jobs:
+  build-and-test:
+    docker:
+      - image: circleci/openjdk:11
+
+    steps:
+      - checkout
+      - run:
+          name: Build and test
+          command: mvn clean verify
+
+  publish:
+    docker:
+      - image: circleci/openjdk:11
+
+    steps:
+      - checkout
+      - run:
+          name: Publish to local maven repository
+          command: mvn install -Dmaven.test.skip=true
+
+workflows:
+  version: 2
+  cicd-pipeline:
+    jobs:
+      - build-and-test
+      - publish:
+          requires:
+            - build-and-test
